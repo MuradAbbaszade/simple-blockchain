@@ -1,0 +1,26 @@
+
+# Gradle generated files
+.gradle/
+gradlew.bat
+
+
+# Project generated files
+*.class
+*.log
+*.patch
+*.war
+*.ear
+*.ser
+logs/
+generated/
+
+# IntelliJ Idea generated files
+*.iml
+*.ipr
+*.iws
+.idea
+.subsplit
+*plugin.xml
+
+build
+.p4root
