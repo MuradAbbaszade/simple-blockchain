@@ -1,7 +1,6 @@
 package com.company.bean;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.company.controller.dto.BlockDto;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -17,10 +16,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-@Getter
-@Setter
 public class Blockchain {
+    public static String nodeAddress = UUID.randomUUID().toString().replace("-","");
+
     public static List<Block> blocks = new ArrayList<>();
     public static List<Node> nodes = new ArrayList<>();
     public static List<Transaction> transactions = new ArrayList<>();
@@ -76,7 +76,7 @@ public class Blockchain {
         return result.toString();
     }
 
-    public int addTransaction(Transaction transaction){
+    public static int addTransaction(Transaction transaction){
         transactions.add(transaction);
         return getPreviousBlock().getIndex()+1; //Transaction will added to this block by the miner
     }
@@ -85,15 +85,14 @@ public class Blockchain {
         List<Block> largestChain=null;
         int maxSize = blocks.size();
         for (Node node : nodes){
-            List<Block> blocksFromNode = toBlockList(getChainRequest("127.0.0.1:8080"));
-            boolean isValid = chainIsValidRequest("127.0.0.1:8080");
+            List<Block> blocksFromNode = toBlockList(getChainRequest(node.getAddress()));
+            boolean isValid = chainIsValidRequest(node.getAddress());
             if(blocksFromNode.size()>maxSize && isValid){
                 largestChain=blocksFromNode;
                 maxSize=blocksFromNode.size();
             }
         }
         if(largestChain!=null){
-            System.out.println(largestChain.toString());
             blocks=largestChain;
             return true;
         }

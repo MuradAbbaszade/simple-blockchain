@@ -1,4 +1,4 @@
-package com.company.bean;
+package com.company.controller.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
